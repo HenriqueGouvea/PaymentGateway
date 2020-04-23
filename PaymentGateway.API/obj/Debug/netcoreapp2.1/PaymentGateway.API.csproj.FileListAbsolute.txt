@@ -1,0 +1,5 @@
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\bin\Debug\netcoreapp2.1\appsettings.Development.json
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\bin\Debug\netcoreapp2.1\appsettings.json
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\bin\Debug\netcoreapp2.1\Properties\launchSettings.json
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\obj\Debug\netcoreapp2.1\PaymentGateway.API.AssemblyInfoInputs.cache
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\obj\Debug\netcoreapp2.1\PaymentGateway.API.AssemblyInfo.cs
