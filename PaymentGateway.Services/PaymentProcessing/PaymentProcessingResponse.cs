@@ -7,14 +7,14 @@ namespace PaymentGateway.Services.PaymentProcessing
   /// </summary>
   public class PaymentProcessingResponse
   {
-    public PaymentProcessingResponse(Guid id, bool isSuccessful)
+    public PaymentProcessingResponse(Guid id, string status)
     {
       Id = id;
-      IsSuccessful = isSuccessful;
+      Status = status;
     }
 
     public Guid Id { get; }
 
-    public bool IsSuccessful { get; }
+    public string Status { get; }
   }
 }

@@ -8,6 +8,8 @@ namespace PaymentGateway.Services.PaymentProcessing
   /// </summary>
   public class FakePaymentProcessingService : IPaymentProcessingService
   {
+    private static readonly Random Random = new Random();
+
     /// <summary>
     /// Processes the specified payment request.
     /// This fake implementation returns a result randomly.
@@ -18,9 +20,13 @@ namespace PaymentGateway.Services.PaymentProcessing
     /// </returns>
     public Task<PaymentProcessingResponse> Process(PaymentProcessingRequest request)
     {
-      var randomResponse = new Random().Next(0, 1);
+      var randomResponse = Random.Next(0, 1);
 
-      return Task.FromResult(new PaymentProcessingResponse(Guid.NewGuid(), randomResponse == 1));
+      var status = randomResponse == 1
+        ? "Approved"
+        : "Denied";
+
+      return Task.FromResult(new PaymentProcessingResponse(Guid.NewGuid(), status));
     }
   }
 }

@@ -4720,6 +4720,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+      },
+      "PaymentGateway.Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/PaymentGateway.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PaymentGateway.Services.dll": {}
+        }
       }
     }
   },
@@ -12842,6 +12852,11 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "PaymentGateway.Services/1.0.0": {
+      "type": "project",
+      "path": "../PaymentGateway.Services/PaymentGateway.Services.csproj",
+      "msbuildProject": "../PaymentGateway.Services/PaymentGateway.Services.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -12851,6 +12866,7 @@
       "Microsoft.NETCore.App >= 2.1.0",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.10.8",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.1.10",
+      "PaymentGateway.Services >= 1.0.0",
       "Swashbuckle.AspNetCore >= 5.3.3"
     ]
   },
@@ -12887,7 +12903,11 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Henrique.Gouvea\\source\\repos\\PaymentGateway\\PaymentGateway.Services\\PaymentGateway.Services.csproj": {
+              "projectPath": "C:\\Users\\Henrique.Gouvea\\source\\repos\\PaymentGateway\\PaymentGateway.Services\\PaymentGateway.Services.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

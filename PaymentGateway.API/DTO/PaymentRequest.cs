@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace PaymentGateway.API.DTO
 {
@@ -8,8 +7,6 @@ namespace PaymentGateway.API.DTO
   /// </summary>
   public class PaymentRequest
   {
-    public Guid Id { get; private set; }
-
     [Required]
     public string Name { get; set; }
 
@@ -35,13 +32,5 @@ namespace PaymentGateway.API.DTO
     [Required]
     [Range(100, 9999)]
     public int CVV { get; set; }
-
-    /// <summary>
-    /// Generates the new identifier to the payment.
-    /// </summary>
-    public void GenerateNewId()
-    {
-      Id = Guid.NewGuid();
-    }
   }
 }

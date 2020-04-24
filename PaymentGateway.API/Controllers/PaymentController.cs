@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.API.DTO;
+using PaymentGateway.Services.PaymentProcessing;
 using System.Threading.Tasks;
+using PaymentGateway.API.Mappers;
 
 namespace PaymentGateway.API.Controllers
 {
@@ -11,6 +13,13 @@ namespace PaymentGateway.API.Controllers
   [ApiController]
   public class PaymentController : Controller
   {
+    private readonly IPaymentProcessingService _paymentProcessingService;
+
+    public PaymentController(IPaymentProcessingService paymentProcessingService)
+    {
+      _paymentProcessingService = paymentProcessingService;
+    }
+
     [HttpPost]
     public async Task<IActionResult> ProcessPayment(PaymentRequest request)
     {
@@ -19,18 +28,15 @@ namespace PaymentGateway.API.Controllers
         return BadRequest(ModelState);
       }
 
-      // Map to a service object
+      var processPayment = request.ToServicePaymentRequest();
+      var serviceResponse = await _paymentProcessingService.Process(processPayment);
+      var paymentResponse = serviceResponse.ToPaymentResponse(request);
 
-      // Send asynchronously to the gateway layer
-
-      // Receive an URI from gateway layer
-      var uri = string.Empty;
-
-      request.GenerateNewId();
+      // Saved in the database
 
       // Save the process request in a log system
 
-      return Created(uri, request);
+      return Created($"https://localhost:44365/api/payment/{paymentResponse.Id}", paymentResponse);
     }
   }
 }

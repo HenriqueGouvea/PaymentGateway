@@ -7,7 +7,16 @@ namespace PaymentGateway.Services.PaymentProcessing
   /// </summary>
   public class PaymentProcessingRequest
   {
-    Guid Id { get; }
+    public PaymentProcessingRequest(string name, string number, int expiryMonth, int expiryYear, decimal amount, string currency, int cvv)
+    {
+      Name = name;
+      Number = number;
+      ExpiryMonth = expiryMonth;
+      ExpiryYear = expiryYear;
+      Amount = amount;
+      Currency = currency;
+      CVV = cvv;
+    }
 
     string Name { get; }
 

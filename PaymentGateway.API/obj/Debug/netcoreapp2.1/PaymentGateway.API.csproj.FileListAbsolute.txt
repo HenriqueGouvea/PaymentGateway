@@ -17,3 +17,6 @@ C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\obj\Debu
 C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\obj\Debug\netcoreapp2.1\PaymentGateway.API.pdb
 C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\obj\Debug\netcoreapp2.1\PaymentGateway.API.csproj.CoreCompileInputs.cache
 C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\bin\Debug\netcoreapp2.1\PaymentGateway.Services.dll
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\bin\Debug\netcoreapp2.1\PaymentGateway.Services.pdb
+C:\Users\Henrique.Gouvea\source\repos\PaymentGateway\PaymentGateway.API\obj\Debug\netcoreapp2.1\PaymentGateway.API.csproj.CopyComplete

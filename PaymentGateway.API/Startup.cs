@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using PaymentGateway.Services.PaymentProcessing;
 
 namespace PaymentGateway.API
 {
@@ -22,6 +23,8 @@ namespace PaymentGateway.API
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+      SetDependencies(services);
 
       // Register the Swagger generator, defining 1 or more Swagger documents
       services.AddSwaggerGen(c =>
@@ -54,6 +57,20 @@ namespace PaymentGateway.API
 
       app.UseHttpsRedirection();
       app.UseMvc();
+    }
+
+    private void SetDependencies(IServiceCollection services)
+    {
+      var useMockedPaymentProcessingService = Configuration.GetValue<bool>("UseMockedPaymentProcessingService");
+
+      if (useMockedPaymentProcessingService)
+      {
+        services.AddScoped<IPaymentProcessingService, FakePaymentProcessingService>();
+      }
+      else
+      {
+        services.AddScoped<IPaymentProcessingService, PaymentProcessingService>();
+      }
     }
   }
 }
