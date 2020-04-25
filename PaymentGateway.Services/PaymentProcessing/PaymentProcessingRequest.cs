@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PaymentGateway.Services.PaymentProcessing
+﻿namespace PaymentGateway.Services.PaymentProcessing
 {
   /// <summary>
   /// The processing payment request.
