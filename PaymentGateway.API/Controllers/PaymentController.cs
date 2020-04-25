@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.API.DTO;
+using PaymentGateway.API.Mappers;
 using PaymentGateway.Services.PaymentProcessing;
 using System.Threading.Tasks;
-using PaymentGateway.API.Mappers;
 
 namespace PaymentGateway.API.Controllers
 {

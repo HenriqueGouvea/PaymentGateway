@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using NUnit.Framework;
 using PaymentGateway.API.Controllers;
 using PaymentGateway.API.DTO;
 using PaymentGateway.Services.PaymentProcessing;
+using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace PaymentGateway.API.Tests.Controllers
 {
@@ -73,6 +73,7 @@ namespace PaymentGateway.API.Tests.Controllers
       Assert.IsNotNull(result);
       Assert.AreEqual(StatusCodes.Status201Created, result.StatusCode);
       Assert.AreEqual($"https://localhost:44365/api/payment/{id}", result.Location);
+      // Assert if it's called the repository to save the payment processing.
     }
   }
 }

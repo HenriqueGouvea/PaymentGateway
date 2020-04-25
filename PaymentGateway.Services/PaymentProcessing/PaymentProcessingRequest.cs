@@ -18,18 +18,18 @@ namespace PaymentGateway.Services.PaymentProcessing
       CVV = cvv;
     }
 
-    string Name { get; }
+    public string Name { get; }
 
-    string Number { get; }
+    public string Number { get; }
 
-    int ExpiryMonth { get; }
+    public int ExpiryMonth { get; }
 
-    int ExpiryYear { get; }
+    public int ExpiryYear { get; }
 
-    decimal Amount { get; }
+    public decimal Amount { get; }
 
-    string Currency { get; }
+    public string Currency { get; }
 
-    int CVV { get; }
+    public int CVV { get; }
   }
 }
