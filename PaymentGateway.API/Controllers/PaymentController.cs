@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.API.DTO;
 using PaymentGateway.API.Mappers;
 using PaymentGateway.Services.PaymentProcessing;
 using System.Threading.Tasks;
+using PaymentGateway.Domain.Services;
 
 namespace PaymentGateway.API.Controllers
 {
@@ -14,10 +16,14 @@ namespace PaymentGateway.API.Controllers
   public class PaymentController : Controller
   {
     private readonly IPaymentProcessingService _paymentProcessingService;
+    private readonly IPaymentRequestService _paymentRequestService;
 
-    public PaymentController(IPaymentProcessingService paymentProcessingService)
+    public PaymentController(
+      IPaymentProcessingService paymentProcessingService,
+      IPaymentRequestService paymentRequestService)
     {
       _paymentProcessingService = paymentProcessingService;
+      _paymentRequestService = paymentRequestService;
     }
 
     /// <summary>
@@ -36,12 +42,31 @@ namespace PaymentGateway.API.Controllers
       var processPayment = request.ToServicePaymentRequest();
       var serviceResponse = await _paymentProcessingService.Process(processPayment);
       var paymentResponse = serviceResponse.ToPaymentResponse(request);
+      var paymentRequest = serviceResponse.ToDomainServicePaymentRequest(request);
 
-      // Saved in the database - update unit test
+      // Saved in the database - update unit tests (Repository, domain service and mapper)
+      _paymentRequestService.Add(paymentRequest);
 
       // Save the process request in a log system - update unit test
 
+      // Use CQRS
+
+      // Change readme documentation
+
+      // Add try-catches
+
       return Created($"https://localhost:44365/api/payment/{paymentResponse.Id}", paymentResponse);
+    }
+
+    /// <summary>
+    /// Gets the previously made payment request details.
+    /// </summary>
+    /// <param name="id">The identifier of the payment request.</param>
+    /// <returns>The details of the payment request.</returns>
+    public async Task<IActionResult> GetPaymentRequest(Guid id)
+    {
+      // Implement this method
+      return null;
     }
   }
 }

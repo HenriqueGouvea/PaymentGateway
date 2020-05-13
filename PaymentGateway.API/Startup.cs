@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using PaymentGateway.Data;
+using PaymentGateway.Data.Repositories;
+using PaymentGateway.Domain.Repositories;
+using PaymentGateway.Domain.Services;
 using PaymentGateway.Services.PaymentProcessing;
 
 namespace PaymentGateway.API
@@ -71,6 +75,10 @@ namespace PaymentGateway.API
       {
         services.AddScoped<IPaymentProcessingService, PaymentProcessingService>();
       }
+
+      services.AddScoped<SQLiteDbContext>();
+      services.AddScoped<IPaymentRequestRepository, PaymentRequestRepository>();
+      services.AddScoped<IPaymentRequestService, PaymentRequestService>();
     }
   }
 }

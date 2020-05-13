@@ -20,6 +20,20 @@ namespace PaymentGateway.API.Mappers
       };
     }
 
+    public static Domain.Models.PaymentRequest ToDomainServicePaymentRequest(this PaymentProcessingResponse serviceResponse, PaymentRequest paymentRequest)
+    {
+      return new Domain.Models.PaymentRequest(
+        serviceResponse.Id,
+        paymentRequest.Name,
+        GetLastCreditCardNumbers(paymentRequest.Number),
+        paymentRequest.ExpiryMonth,
+        paymentRequest.ExpiryMonth,
+        paymentRequest.Amount,
+        paymentRequest.Currency,
+        paymentRequest.CVV,
+        serviceResponse.Status);
+    }
+
     private static string GetLastCreditCardNumbers(string number)
     {
       var lastIndex = number.Length - 1;
