@@ -33,17 +33,55 @@ namespace PaymentGateway.API.Tests.Mappers
       Assert.IsTrue(AreFieldsEqual(paymentResponse, paymentProcessingResponse, paymentRequest));
     }
 
-    private static bool AreFieldsEqual(PaymentResponse paymentResponse, PaymentProcessingResponse paymentProcessingResponse, PaymentRequest paymentRequest)
+    [Test]
+    public void PaymentResponseConverter_ToDomainServicePaymentRequest_FieldsAreEqual()
     {
-      return paymentResponse.Name == paymentRequest.Name &&
-             paymentResponse.Amount == paymentRequest.Amount &&
-             paymentResponse.Currency == paymentRequest.Currency &&
-             paymentResponse.ExpiryMonth == paymentRequest.ExpiryMonth &&
-             paymentResponse.ExpiryYear == paymentRequest.ExpiryYear &&
-             paymentResponse.LastCardNumbers == paymentRequest.Number.Substring(paymentRequest.Number.Length - 4) &&
-             paymentResponse.Status == paymentProcessingResponse.Status &&
-             paymentResponse.Id == paymentProcessingResponse.Id;
+      // Arrange
+      var paymentProcessingResponse = new PaymentProcessingResponse(Guid.NewGuid(), "Approved");
 
+      var paymentRequest = new PaymentRequest
+      {
+        Number = "1111111111111111",
+        Name = "Test",
+        ExpiryYear = 2021,
+        ExpiryMonth = 12,
+        Currency = "EUR",
+        CVV = 123,
+        Amount = 20
+      };
+
+      // Act
+      var paymentResponse = paymentProcessingResponse.ToDomainServicePaymentRequest(paymentRequest);
+
+      // Assert
+      Assert.IsNotNull(paymentResponse);
+      Assert.IsTrue(AreFieldsEqual(paymentResponse, paymentProcessingResponse, paymentRequest));
+    }
+
+    private static bool AreFieldsEqual(PaymentResponse outputObject, PaymentProcessingResponse paymentProcessingResponse, PaymentRequest paymentRequest)
+    {
+      return outputObject.Name == paymentRequest.Name &&
+             outputObject.Amount == paymentRequest.Amount &&
+             outputObject.Currency == paymentRequest.Currency &&
+             outputObject.ExpiryMonth == paymentRequest.ExpiryMonth &&
+             outputObject.ExpiryYear == paymentRequest.ExpiryYear &&
+             outputObject.LastCardNumbers == paymentRequest.Number.Substring(paymentRequest.Number.Length - 4) &&
+             outputObject.Status == paymentProcessingResponse.Status &&
+             outputObject.Id == paymentProcessingResponse.Id;
+
+    }
+
+    private static bool AreFieldsEqual(Domain.Models.PaymentRequest outputObject, PaymentProcessingResponse paymentProcessingResponse, PaymentRequest paymentRequest)
+    {
+      return outputObject.Id == paymentProcessingResponse.Id &&
+             outputObject.Name == paymentRequest.Name &&
+             outputObject.LastCardNumbers == paymentRequest.Number.Substring(paymentRequest.Number.Length - 4) &&
+             outputObject.ExpiryMonth == paymentRequest.ExpiryMonth &&
+             outputObject.ExpiryYear == paymentRequest.ExpiryYear &&
+             outputObject.Amount == paymentRequest.Amount &&
+             outputObject.Currency == paymentRequest.Currency &&
+             outputObject.CVV == paymentRequest.CVV &&
+             outputObject.Status == paymentProcessingResponse.Status;
     }
   }
 }

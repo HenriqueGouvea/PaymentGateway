@@ -27,7 +27,7 @@ namespace PaymentGateway.API.Mappers
         paymentRequest.Name,
         GetLastCreditCardNumbers(paymentRequest.Number),
         paymentRequest.ExpiryMonth,
-        paymentRequest.ExpiryMonth,
+        paymentRequest.ExpiryYear,
         paymentRequest.Amount,
         paymentRequest.Currency,
         paymentRequest.CVV,

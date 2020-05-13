@@ -44,7 +44,6 @@ namespace PaymentGateway.API.Controllers
       var paymentResponse = serviceResponse.ToPaymentResponse(request);
       var paymentRequest = serviceResponse.ToDomainServicePaymentRequest(request);
 
-      // Saved in the database - update unit tests (Repository, domain service and mapper)
       _paymentRequestService.Add(paymentRequest);
 
       // Save the process request in a log system - update unit test
