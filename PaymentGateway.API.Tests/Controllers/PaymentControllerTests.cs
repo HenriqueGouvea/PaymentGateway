@@ -7,6 +7,7 @@ using PaymentGateway.API.DTO;
 using PaymentGateway.Services.PaymentProcessing;
 using System;
 using System.Threading.Tasks;
+using PaymentGateway.Domain.Services;
 
 namespace PaymentGateway.API.Tests.Controllers
 {
@@ -14,12 +15,14 @@ namespace PaymentGateway.API.Tests.Controllers
   {
     private PaymentController _target;
     private Mock<IPaymentProcessingService> _paymentProcessingService;
+    private Mock<IPaymentRequestService> _paymentRequestService;
 
     [SetUp]
     public void Setup()
     {
       _paymentProcessingService = new Mock<IPaymentProcessingService>();
-      _target = new PaymentController(_paymentProcessingService.Object);
+      _paymentRequestService = new Mock<IPaymentRequestService>();
+      _target = new PaymentController(_paymentProcessingService.Object, _paymentRequestService.Object);
     }
 
     [Test]

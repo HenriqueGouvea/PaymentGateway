@@ -63,6 +63,7 @@ namespace PaymentGateway.API.Controllers
     /// </summary>
     /// <param name="id">The identifier of the payment request.</param>
     /// <returns>The details of the payment request.</returns>
+    [HttpGet]
     public async Task<IActionResult> GetPaymentRequest(Guid id)
     {
       // Implement this method
