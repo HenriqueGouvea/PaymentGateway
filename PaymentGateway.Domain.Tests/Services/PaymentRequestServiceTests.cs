@@ -42,5 +42,18 @@ namespace PaymentGateway.Domain.Tests.Services
       // Assert
       _paymentRequestRepository.Verify(r => r.AddAsync(It.IsAny<PaymentRequest>()), Times.Once);
     }
+
+    [Test]
+    public async Task Find_AValidIdIsPassed_FindsInTheRepositoryWithTheId()
+    {
+      // Arrange
+      var id = Guid.NewGuid();
+
+      // Act
+      await _target.FindAsync(id);
+
+      // Assert
+      _paymentRequestRepository.Verify(r => r.FindAsync(id), Times.Once);
+    }
   }
 }

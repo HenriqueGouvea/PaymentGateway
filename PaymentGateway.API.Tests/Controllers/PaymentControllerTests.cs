@@ -78,5 +78,36 @@ namespace PaymentGateway.API.Tests.Controllers
       Assert.AreEqual($"https://localhost:44365/api/payment/{id}", result.Location);
       _paymentRequestService.Verify(s => s.AddAsync(It.IsAny<Domain.Models.PaymentRequest>()), Times.Once);
     }
+
+    [Test]
+    public async Task GetPaymentRequest_PaymentRequestNotFound_ReturnsBadRequest()
+    {
+      // Arrange
+      var id = Guid.NewGuid();
+
+      // Act
+      var result = await _target.GetPaymentRequest(id) as NotFoundResult;
+
+      // Assert
+      Assert.IsNotNull(result);
+      Assert.AreEqual(StatusCodes.Status404NotFound, result.StatusCode);
+      _paymentRequestService.Verify(s => s.FindAsync(id), Times.Once);
+    }
+
+    [Test]
+    public async Task GetPaymentRequest_PaymentRequestFound_ReturnsOk()
+    {
+      // Arrange
+      var id = Guid.NewGuid();
+      _paymentRequestService.Setup(s => s.FindAsync(id)).ReturnsAsync(new Domain.Models.PaymentRequest());
+
+      // Act
+      var result = await _target.GetPaymentRequest(id) as OkObjectResult;
+
+      // Assert
+      Assert.IsNotNull(result);
+      Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
+      _paymentRequestService.Verify(s => s.FindAsync(id), Times.Once);
+    }
   }
 }
