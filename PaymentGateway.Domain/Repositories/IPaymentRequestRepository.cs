@@ -1,4 +1,7 @@
-﻿using PaymentGateway.Domain.Models;
+﻿using System;
+using System.Threading.Tasks;
+
+using PaymentGateway.Domain.Models;
 
 namespace PaymentGateway.Domain.Repositories
 {
@@ -7,6 +10,8 @@ namespace PaymentGateway.Domain.Repositories
   /// </summary>
   public interface IPaymentRequestRepository
   {
-    void Add(PaymentRequest paymentRequest);
+    Task AddAsync(PaymentRequest paymentRequest);
+
+    Task<PaymentRequest> FindAsync(Guid id);
   }
 }

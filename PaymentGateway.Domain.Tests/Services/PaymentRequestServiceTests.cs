@@ -4,6 +4,7 @@ using PaymentGateway.Domain.Models;
 using PaymentGateway.Domain.Repositories;
 using PaymentGateway.Domain.Services;
 using System;
+using System.Threading.Tasks;
 
 namespace PaymentGateway.Domain.Tests.Services
 {
@@ -21,7 +22,7 @@ namespace PaymentGateway.Domain.Tests.Services
     }
 
     [Test]
-    public void Add_ValidPaymentRequest_CallsAddMethod()
+    public async Task Add_ValidPaymentRequest_CallsAddMethod()
     {
       // Arrange
       var paymentRequest = new PaymentRequest(
@@ -36,10 +37,10 @@ namespace PaymentGateway.Domain.Tests.Services
         "Approved");
 
       // Act
-      _target.Add(paymentRequest);
+      await _target.AddAsync(paymentRequest);
 
       // Assert
-      _paymentRequestRepository.Verify(r => r.Add(It.IsAny<PaymentRequest>()), Times.Once);
+      _paymentRequestRepository.Verify(r => r.AddAsync(It.IsAny<PaymentRequest>()), Times.Once);
     }
   }
 }

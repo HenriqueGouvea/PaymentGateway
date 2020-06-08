@@ -76,7 +76,7 @@ namespace PaymentGateway.API.Tests.Controllers
       Assert.IsNotNull(result);
       Assert.AreEqual(StatusCodes.Status201Created, result.StatusCode);
       Assert.AreEqual($"https://localhost:44365/api/payment/{id}", result.Location);
-      _paymentRequestService.Verify(s => s.Add(It.IsAny<Domain.Models.PaymentRequest>()), Times.Once);
+      _paymentRequestService.Verify(s => s.AddAsync(It.IsAny<Domain.Models.PaymentRequest>()), Times.Once);
     }
   }
 }

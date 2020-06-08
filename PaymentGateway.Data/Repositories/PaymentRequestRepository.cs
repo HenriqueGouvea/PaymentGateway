@@ -1,4 +1,7 @@
-﻿using PaymentGateway.Domain.Models;
+﻿using System;
+using System.Threading.Tasks;
+
+using PaymentGateway.Domain.Models;
 using PaymentGateway.Domain.Repositories;
 
 namespace PaymentGateway.Data.Repositories
@@ -13,10 +16,15 @@ namespace PaymentGateway.Data.Repositories
       _context = db;
     }
 
-    public void Add(PaymentRequest paymentRequest)
+    public async Task AddAsync(PaymentRequest paymentRequest)
     {
-      _context.Add(paymentRequest);
-      _context.SaveChanges();
+      await _context.AddAsync(paymentRequest);
+      await _context.SaveChangesAsync();
+    }
+
+    public async Task<PaymentRequest> FindAsync(Guid id)
+    {
+      return await _context.PaymentRequests.FindAsync(id);
     }
   }
 }

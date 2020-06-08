@@ -44,7 +44,7 @@ namespace PaymentGateway.API.Controllers
       var paymentResponse = serviceResponse.ToPaymentResponse(request);
       var paymentRequest = serviceResponse.ToDomainServicePaymentRequest(request);
 
-      _paymentRequestService.Add(paymentRequest);
+      _paymentRequestService.AddAsync(paymentRequest);
 
       // Save the process request in a log system - update unit test
 
@@ -65,8 +65,14 @@ namespace PaymentGateway.API.Controllers
     [HttpGet]
     public async Task<IActionResult> GetPaymentRequest(Guid id)
     {
-      // Implement this method
-      return null;
+      var paymentRequest = await _paymentRequestService.FindAsync(id);
+
+      if (paymentRequest == null)
+      {
+        return NotFound();
+      }
+
+      return Ok(paymentRequest);
     }
   }
 }
