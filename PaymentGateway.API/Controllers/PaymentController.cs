@@ -55,10 +55,6 @@ namespace PaymentGateway.API.Controllers
 
         _log.LogInformation("Payment processed", paymentRequest.Id);
 
-        // Use CQRS
-
-        // Change readme documentation
-
         return Created($"https://localhost:44365/api/payment/{paymentResponse.Id}", paymentResponse);
       }
       catch (Exception e)

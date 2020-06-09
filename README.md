@@ -64,10 +64,12 @@ In the feature this service can be easily replaced by a real service and can be 
 
 ## Pending features
 - [x] Loggin
+- [x] Build script / CI
 - [ ] Application metrics
 - [ ] Authentication
 - [ ] API client
-- [ ] Build script / CI
 - [ ] Performance testing
 - [ ] Data storage
 - [ ] Containerization
+- [ ] Circuit breaker when calling the real bank service
+- [ ] CQRS
