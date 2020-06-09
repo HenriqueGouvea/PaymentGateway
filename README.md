@@ -1,5 +1,4 @@
-# PaymentGateway
-
+# PaymentGateway ![PaymentGateway CI](https://github.com/HenriqueGouvea/PaymentGateway/workflows/PaymentGateway%20CI/badge.svg)
 This API simulates an intermediate between e-commerces and payment processors. It sends the payment processing to another API and saves the request into its own database to be recovered later using the GUID of the processing.
 
 ## Endpoints
