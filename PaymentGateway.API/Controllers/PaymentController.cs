@@ -1,10 +1,12 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PaymentGateway.API.DTO;
 using PaymentGateway.API.Mappers;
-using PaymentGateway.Services.PaymentProcessing;
-using System.Threading.Tasks;
 using PaymentGateway.Domain.Services;
+using PaymentGateway.Services.PaymentProcessing;
+using System;
+using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
 
 namespace PaymentGateway.API.Controllers
 {
@@ -17,13 +19,16 @@ namespace PaymentGateway.API.Controllers
   {
     private readonly IPaymentProcessingService _paymentProcessingService;
     private readonly IPaymentRequestService _paymentRequestService;
+    private readonly ILogger<PaymentController> _log;
 
     public PaymentController(
       IPaymentProcessingService paymentProcessingService,
-      IPaymentRequestService paymentRequestService)
+      IPaymentRequestService paymentRequestService,
+      ILogger<PaymentController> log)
     {
       _paymentProcessingService = paymentProcessingService;
       _paymentRequestService = paymentRequestService;
+      _log = log;
     }
 
     /// <summary>
@@ -34,27 +39,34 @@ namespace PaymentGateway.API.Controllers
     [HttpPost]
     public async Task<IActionResult> ProcessPayment(PaymentRequest request)
     {
-      if (!ModelState.IsValid)
+      try
       {
-        return BadRequest(ModelState);
+        if (!ModelState.IsValid)
+        {
+          return BadRequest(ModelState);
+        }
+
+        var processPayment = request.ToServicePaymentRequest();
+        var serviceResponse = await _paymentProcessingService.Process(processPayment);
+        var paymentResponse = serviceResponse.ToPaymentResponse(request);
+        var paymentRequest = serviceResponse.ToDomainServicePaymentRequest(request);
+
+        _paymentRequestService.AddAsync(paymentRequest);
+
+        _log.LogInformation("Payment processed", paymentRequest.Id);
+
+        // Use CQRS
+
+        // Change readme documentation
+
+        return Created($"https://localhost:44365/api/payment/{paymentResponse.Id}", paymentResponse);
       }
+      catch (Exception e)
+      {
+        _log.LogError("Error during payment processing", e);
 
-      var processPayment = request.ToServicePaymentRequest();
-      var serviceResponse = await _paymentProcessingService.Process(processPayment);
-      var paymentResponse = serviceResponse.ToPaymentResponse(request);
-      var paymentRequest = serviceResponse.ToDomainServicePaymentRequest(request);
-
-      _paymentRequestService.AddAsync(paymentRequest);
-
-      // Save the process request in a log system - update unit test
-
-      // Use CQRS
-
-      // Change readme documentation
-
-      // Add try-catches
-
-      return Created($"https://localhost:44365/api/payment/{paymentResponse.Id}", paymentResponse);
+        throw;
+      }
     }
 
     /// <summary>
@@ -65,14 +77,25 @@ namespace PaymentGateway.API.Controllers
     [HttpGet]
     public async Task<IActionResult> GetPaymentRequest(Guid id)
     {
-      var paymentRequest = await _paymentRequestService.FindAsync(id);
-
-      if (paymentRequest == null)
+      try
       {
-        return NotFound();
-      }
+        var paymentRequest = await _paymentRequestService.FindAsync(id);
 
-      return Ok(paymentRequest);
+        if (paymentRequest == null)
+        {
+          return NotFound();
+        }
+
+        _log.LogInformation("Payment requested", paymentRequest.Id);
+
+        return Ok(paymentRequest);
+      }
+      catch (Exception e)
+      {
+        _log.LogError("Error during payment requesting", e);
+
+        throw;
+      }
     }
   }
 }

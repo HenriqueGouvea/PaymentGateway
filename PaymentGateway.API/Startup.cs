@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using PaymentGateway.Data;
 using PaymentGateway.Data.Repositories;
@@ -37,7 +38,7 @@ namespace PaymentGateway.API
       });
     }
 
-    public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+    public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
       app.UseSwagger();
 
@@ -49,6 +50,8 @@ namespace PaymentGateway.API
         c.RoutePrefix = string.Empty;
 #endif
       });
+
+      loggerFactory.AddFile("Logs/PaymentGateway-{Date}.txt");
 
       if (env.IsDevelopment())
       {

@@ -1,13 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using PaymentGateway.API.Controllers;
 using PaymentGateway.API.DTO;
+using PaymentGateway.Domain.Services;
 using PaymentGateway.Services.PaymentProcessing;
 using System;
 using System.Threading.Tasks;
-using PaymentGateway.Domain.Services;
 
 namespace PaymentGateway.API.Tests.Controllers
 {
@@ -16,13 +17,15 @@ namespace PaymentGateway.API.Tests.Controllers
     private PaymentController _target;
     private Mock<IPaymentProcessingService> _paymentProcessingService;
     private Mock<IPaymentRequestService> _paymentRequestService;
+    private Mock<ILogger<PaymentController>> _log;
 
     [SetUp]
     public void Setup()
     {
       _paymentProcessingService = new Mock<IPaymentProcessingService>();
       _paymentRequestService = new Mock<IPaymentRequestService>();
-      _target = new PaymentController(_paymentProcessingService.Object, _paymentRequestService.Object);
+      _log = new Mock<ILogger<PaymentController>>();
+      _target = new PaymentController(_paymentProcessingService.Object, _paymentRequestService.Object, _log.Object);
     }
 
     [Test]
@@ -54,16 +57,7 @@ namespace PaymentGateway.API.Tests.Controllers
     public async Task ProcessPayment_ModelStateValid_ReturnsOk()
     {
       // Arrange
-      var paymentRequest = new PaymentRequest
-      {
-        Name = "Bill Gates",
-        Amount = 1,
-        Currency = "EUR",
-        CVV = 123,
-        ExpiryMonth = 12,
-        ExpiryYear = 2021,
-        Number = "4657789945661234"
-      };
+      var paymentRequest = GetValidDummyPaymentRequest();
 
       var id = Guid.NewGuid();
       var serviceResponse = new PaymentProcessingResponse(id, "Approved");
@@ -108,6 +102,20 @@ namespace PaymentGateway.API.Tests.Controllers
       Assert.IsNotNull(result);
       Assert.AreEqual(StatusCodes.Status200OK, result.StatusCode);
       _paymentRequestService.Verify(s => s.FindAsync(id), Times.Once);
+    }
+
+    private PaymentRequest GetValidDummyPaymentRequest()
+    {
+      return new PaymentRequest
+             {
+               Name = "Bill Gates",
+               Amount = 1,
+               Currency = "EUR",
+               CVV = 123,
+               ExpiryMonth = 12,
+               ExpiryYear = 2021,
+               Number = "4657789945661234"
+             };
     }
   }
 }
