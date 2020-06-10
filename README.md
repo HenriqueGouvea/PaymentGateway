@@ -80,6 +80,7 @@ The role processor can process payments only. The role analyst can recover payme
 - [x] Containerization
 - [x] Authentication and authorization
 - [ ] New users and role possibility
+- [ ] Add more logs
 - [ ] Application metrics
 - [ ] API client
 - [ ] Performance testing

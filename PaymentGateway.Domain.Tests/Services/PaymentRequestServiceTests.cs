@@ -22,7 +22,7 @@ namespace PaymentGateway.Domain.Tests.Services
     }
 
     [Test]
-    public async Task Add_ValidPaymentRequest_CallsAddMethod()
+    public async Task AddAsync_ValidPaymentRequest_CallsAddMethod()
     {
       // Arrange
       var paymentRequest = new PaymentRequest(
@@ -44,7 +44,7 @@ namespace PaymentGateway.Domain.Tests.Services
     }
 
     [Test]
-    public async Task Find_AValidIdIsPassed_FindsInTheRepositoryWithTheId()
+    public async Task FindAsync_AValidIdIsPassed_FindsInTheRepositoryWithTheId()
     {
       // Arrange
       var id = Guid.NewGuid();

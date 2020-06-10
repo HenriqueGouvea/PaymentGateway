@@ -80,7 +80,7 @@ namespace PaymentGateway.API.Tests.Controllers
       var id = Guid.NewGuid();
 
       // Act
-      var result = await _target.GetPaymentRequest(id) as NotFoundResult;
+      var result = await _target.GetPaymentRequest(id) as NotFoundObjectResult;
 
       // Assert
       Assert.IsNotNull(result);
