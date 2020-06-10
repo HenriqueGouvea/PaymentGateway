@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using PaymentGateway.API.DTO;
 using PaymentGateway.API.Mappers;
 using PaymentGateway.Domain.Services;
 using PaymentGateway.Services.PaymentProcessing;
 using System;
 using System.Threading.Tasks;
-
-using Microsoft.Extensions.Logging;
 
 namespace PaymentGateway.API.Controllers
 {
@@ -37,6 +37,7 @@ namespace PaymentGateway.API.Controllers
     /// <param name="request">The payment request.</param>
     /// <returns>The payment response and the link to recover the data about the payment processing.</returns>
     [HttpPost]
+    [Authorize(Roles = "processor")]
     public async Task<IActionResult> ProcessPayment(PaymentRequest request)
     {
       try
@@ -71,6 +72,7 @@ namespace PaymentGateway.API.Controllers
     /// <param name="id">The identifier of the payment request.</param>
     /// <returns>The details of the payment request.</returns>
     [HttpGet]
+    [Authorize(Roles = "analyst")]
     public async Task<IActionResult> GetPaymentRequest(Guid id)
     {
       try
@@ -79,7 +81,7 @@ namespace PaymentGateway.API.Controllers
 
         if (paymentRequest == null)
         {
-          return NotFound();
+          return NotFound(new { Message = "Payment request not found" });
         }
 
         _log.LogInformation("Payment requested", paymentRequest.Id);

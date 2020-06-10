@@ -61,14 +61,28 @@ There is a fake payment processing service running. It's returning a random resp
 
 In the feature this service can be easily replaced by a real service and can be toggled changing the appsetting ```UseMockedPaymentProcessingService``` to ```false```
 
-## Pending features
+## Authentication and authorization
+
+It was added a very basic API authentication and authorization using JWT and Bearer scheme.
+
+It was not included an endpoint to register new users just for a matter of time.
+
+There are two users in the database with two different roles that can be used:
+- payment.processor (password: 123456 / Role: processor)
+- analyst (password: 123456 / Role: analyst)
+
+The role processor can process payments only. The role analyst can recover payment processings only.
+
+## Extra features
 - [x] Loggin
 - [x] Build script / CI
 - [x] Data storage
 - [x] Containerization
+- [x] Authentication and authorization
+- [ ] New users and role possibility
 - [ ] Application metrics
-- [ ] Authentication
 - [ ] API client
 - [ ] Performance testing
-- [ ] Circuit breaker when calling the real bank service
+- [ ] Circuit breaker when calling the real bank service (with retry and time out policy)
 - [ ] CQRS
+- [ ] Encrypt password on database

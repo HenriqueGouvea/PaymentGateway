@@ -11,5 +11,7 @@ namespace PaymentGateway.Data
     }
 
     public DbSet<PaymentRequest> PaymentRequests { get; set; }
+    
+    public DbSet<User> Users { get; set; }
   }
 }
